@@ -67,8 +67,15 @@ const Container = styled.div`
     max-height: 100%;
     overflow: auto;
     &::-webkit-scrollbar {
-        display: none;
+        width: 0.3rem;
+        background-color:transparent;
         }
+    &:hover {
+        &::-webkit-scrollbar-thumb {
+                background-color: rgba(255,255,255, 0.5);
+                border-radius: 1em;
+        }
+    }
     li {
       cursor: pointer;
       display: flex;
