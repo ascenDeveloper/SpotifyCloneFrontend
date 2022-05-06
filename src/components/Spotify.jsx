@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { reducerCases } from '../utils/Constants';
 import { useStateProvider } from '../utils/StateProvider';
 import Body from './Body';
 import Footer from './Footer';
@@ -18,8 +19,13 @@ function Spotify() {
                         "Content-Type": "application/json",
                     },
                 });
-            console.log(data)
-        }
+            const userInfo = {
+                userId: data.id,
+                userName: data.display_name,
+            }
+            console.log(userInfo)
+            dispatch({ type: reducerCases.SET_USER, userInfo });
+        };
         getUserInfo();
     }, [dispatch, token]);
 
@@ -51,7 +57,7 @@ const Container = styled.div`
     grid-template-rows: 85vh 15vh;
     .spotify__body {
         display: grid;
-        grid-template-columns: 15vw 85vh;
+        grid-template-columns: 15vw 85vw;
         height: 100%;
         width: 100%;
         background: linear-gradient(transparent, rgba(0,0,0,1));
