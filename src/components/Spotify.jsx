@@ -1,27 +1,44 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { useStateProvider } from '../utils/StateProvider';
 import Body from './Body';
 import Footer from './Footer';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 
 function Spotify() {
-  return (
-    <Container>
-        <div className="spotify__body">
-            <Sidebar></Sidebar>
-            <div className="body">
-                <Navbar></Navbar>
-                <div className="body__contents">
-                    <Body></Body>
+    const [{ token }, dispatch] = useStateProvider();
+    useEffect(() => {
+        const getUserInfo = async () => {
+            const { data } = await axios.get('https://api.spotify.com/v1/me',
+                {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        "Content-Type": "application/json",
+                    },
+                });
+            console.log(data)
+        }
+        getUserInfo();
+    }, [dispatch, token]);
+
+    return (
+        <Container>
+            <div className="spotify__body">
+                <Sidebar></Sidebar>
+                <div className="body">
+                    <Navbar></Navbar>
+                    <div className="body__contents">
+                        <Body></Body>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div className="spotify__footer">
-            <Footer></Footer>
-        </div>
-    </Container>
-  )
+            <div className="spotify__footer">
+                <Footer></Footer>
+            </div>
+        </Container>
+    )
 }
 
 export default Spotify;
